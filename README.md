@@ -32,6 +32,14 @@ Pass `--autoload` (or `-a`) to also re-register the bundle with Launch Services,
 ./scripts/install.sh --autoload
 ```
 
+## Uninstall
+
+```sh
+./scripts/uninstall.sh
+```
+
+Quits DayNight, removes it from Login Items if present, unregisters it from Launch Services, and deletes `/Applications/DayNight.app`.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
