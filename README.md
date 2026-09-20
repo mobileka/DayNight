@@ -21,12 +21,11 @@ The app is assembled at `build/DayNight.app`.
 ## Install
 
 ```sh
+# build, install to `/Applications/DayNight.app` and launch the app
 ./scripts/install.sh
 ```
 
-Builds, replaces any running copy, installs to `/Applications/DayNight.app`, and launches it.
-
-Pass `--autoload` (or `-a`) to also re-register the bundle with Launch Services, which helps when Finder keeps showing a stale icon:
+Pass `--autoload` (or `-a`) if you want it to launch automatically:
 
 ```sh
 ./scripts/install.sh --autoload
@@ -38,7 +37,7 @@ Pass `--autoload` (or `-a`) to also re-register the bundle with Launch Services,
 ./scripts/uninstall.sh
 ```
 
-Quits DayNight, removes it from Login Items if present, unregisters it from Launch Services, and deletes `/Applications/DayNight.app`.
+Quits DayNight, removes it from Login Items if present, and deletes `/Applications/DayNight.app`.
 
 ## License
 

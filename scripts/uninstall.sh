@@ -13,7 +13,6 @@ if osascript -e 'tell application "System Events" to get the name of every login
 fi
 
 if [ -d "$APP" ]; then
-    /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -u "$APP" >/dev/null 2>&1 || true
     rm -rf "$APP"
     echo "Removed $APP"
 else
