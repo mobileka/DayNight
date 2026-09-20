@@ -8,6 +8,7 @@ As macOS's built-in auto mode gives you little control over this, DayNight repla
 
 - macOS 13 or newer
 - Xcode command line tools (`xcode-select --install`) for `swiftc`
+- Permission to control System Events
 
 ## Build
 
@@ -25,9 +26,11 @@ The app is assembled at `build/DayNight.app`.
 
 Builds, replaces any running copy, installs to `/Applications/DayNight.app`, and launches it.
 
-## Permissions
+Pass `--autoload` (or `-a`) to also re-register the bundle with Launch Services, which helps when Finder keeps showing a stale icon:
 
-DayNight switches appearance by telling System Events to change the system setting. On first click macOS asks for permission to control System Events — approve it once. If it was denied, enable DayNight under System Settings → Privacy & Security → Automation.
+```sh
+./scripts/install.sh --autoload
+```
 
 ## License
 

@@ -11,7 +11,10 @@ sleep 1
 
 rm -rf "$APP"
 ditto "$ROOT/build/DayNight.app" "$APP"
-/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$APP"
+
+if [ "${1:-}" = "--autoload" ] || [ "${1:-}" = "-a" ]; then
+    /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$APP"
+fi
 
 open "$APP"
 echo "Installed $APP"
