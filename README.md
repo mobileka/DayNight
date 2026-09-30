@@ -7,13 +7,13 @@ As macOS's built-in auto mode gives you little control over this, DayNight repla
 ## Requirements
 
 - macOS 13 or newer
-- Xcode command line tools (`xcode-select --install`) for `swiftc`
+- Swift 6 toolchain (Xcode command line tools: `xcode-select --install`)
 - Permission to control System Events
 
 ## Build
 
 ```sh
-./scripts/build.sh
+make app
 ```
 
 The app is assembled at `build/DayNight.app`.
@@ -22,19 +22,19 @@ The app is assembled at `build/DayNight.app`.
 
 ```sh
 # build, install to `/Applications/DayNight.app` and launch the app
-./scripts/install.sh
+make install
 ```
 
-Pass `--autoload` (or `-a`) if you want it to launch automatically:
+Pass `AUTOLOAD=1` if you want it to launch automatically:
 
 ```sh
-./scripts/install.sh --autoload
+make install AUTOLOAD=1
 ```
 
 ## Uninstall
 
 ```sh
-./scripts/uninstall.sh
+make uninstall
 ```
 
 Quits DayNight, removes it from Login Items if present, and deletes `/Applications/DayNight.app`.

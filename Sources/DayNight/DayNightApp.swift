@@ -1,28 +1,35 @@
 import AppKit
+import DayNightKit
 
-private let toggleSource = """
-tell application "System Events"
-    tell appearance preferences
-        set dark mode to not dark mode
-        return dark mode
-    end tell
-end tell
-"""
+@main
+enum DayNightApp {
+    static func main() {
+        switch LaunchAction.resolve(arguments: CommandLine.arguments) {
+        case .runApp:
+            let app = NSApplication.shared
+            let delegate = AppDelegate()
+            app.delegate = delegate
+            app.setActivationPolicy(.accessory)
+            app.run()
 
-private func isDark() -> Bool {
-    (UserDefaults.standard.string(forKey: "AppleInterfaceStyle") ?? "Light") == "Dark"
-}
+        case .printStatus(let mode):
+            print(mode.rawValue)
 
-private func toggleAppearance() -> Bool? {
-    guard let script = NSAppleScript(source: toggleSource) else { return nil }
-    var error: NSDictionary?
-    let result = script.executeAndReturnError(&error)
-    if error != nil { return nil }
-    return result.booleanValue
+        case .toggle:
+            do {
+                let mode = try AppearanceController().toggle()
+                print(mode.rawValue)
+            } catch {
+                FileHandle.standardError.write(Data("error: could not change appearance (permission?)\n".utf8))
+                exit(1)
+            }
+        }
+    }
 }
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem!
+    private let controller = AppearanceController()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -46,7 +53,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func updateIcon() {
-        let dark = isDark()
+        let dark = SystemAppearance.current() == .dark
         let image = NSImage(
             systemSymbolName: dark ? "moon.fill" : "sun.max",
             accessibilityDescription: dark ? "Dark appearance, click for light" : "Light appearance, click for dark"
@@ -65,7 +72,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func doToggle() {
-        if toggleAppearance() == nil {
+        do {
+            _ = try controller.toggle()
+        } catch {
             showPermissionAlert()
         }
         updateIcon()
@@ -99,24 +108,3 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 }
-
-if CommandLine.arguments.contains("--toggle") {
-    if let dark = toggleAppearance() {
-        print(dark ? "dark" : "light")
-        exit(0)
-    } else {
-        FileHandle.standardError.write(Data("error: could not change appearance (permission?)\n".utf8))
-        exit(1)
-    }
-}
-
-if CommandLine.arguments.contains("--status") {
-    print(isDark() ? "dark" : "light")
-    exit(0)
-}
-
-let app = NSApplication.shared
-let delegate = AppDelegate()
-app.delegate = delegate
-app.setActivationPolicy(.accessory)
-app.run()
