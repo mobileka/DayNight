@@ -7,7 +7,7 @@ As macOS's built-in auto mode gives you little control over this, DayNight repla
 ## Requirements
 
 - macOS 13 or newer
-- Swift 6 toolchain (Xcode command line tools: `xcode-select --install`)
+- Xcode command line tools: `xcode-select --install`)
 - Permission to control System Events
 
 ## Build
