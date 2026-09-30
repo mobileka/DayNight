@@ -1,4 +1,4 @@
-# DayNight
+# <img src="assets/logo.png" width="32" align="absmiddle" alt=""> DayNight
 
 A tiny 1-click macOS menu bar switch for Light/Dark theme.
 
